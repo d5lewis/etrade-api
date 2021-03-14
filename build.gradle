@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'nu.studer.credentials' version '2.1'
 }
 
 repositories {
@@ -50,6 +51,16 @@ application {
 
 run {
     standardInput = System.in
+}
+
+// Set the credentials for oauth
+processResources {
+    filesMatching('oauth.properties') {
+        expand(consumerKey: credentials.consumerKey,
+                consumerSecret: credentials.consumerSecret,
+                sandboxConsumerKey: credentials.sandboxConsumerKey,
+                sandboxConsumerSecret: credentials.sandboxConsumerSecret)
+    }
 }
 
 // Application information

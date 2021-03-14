@@ -1,12 +1,16 @@
-# E*TRADE API Java Example Appication 
+# E*TRADE API Java Application
 
-The example application provides an environment for testing and validating the sandbox and live API.
+The example application is built to run as a microservice to manage an E*Trade account 
+from a trading platform.  It also includes a command line feature to test and validate
+algorithm trading in a sandbox and/or live environment.
 
 ## Table of Contents
 
 * [Requirements](#requirements)
 * [Setup](#setup)
 * [Running Code](#running-code)
+* [Features](#features)
+* [Roadmap](#roadmap)
 
 ## Requirements
  - Java 11
@@ -15,7 +19,14 @@ The example application provides an environment for testing and validating the s
  - E*TRADE consumer key and consumer secret.
 	
  ## Setup
- - Update oauth keys in the oauth.properties file available with source.
+This microservice utilizes the Gradle plugin [nu.studer.credentials](https://plugins.gradle.org/plugin/nu.studer.credentials)
+to maintain encrypted credentials for use in the live and sandbox environment of the Etrade API. A Gradle task called 
+addCredentials must be executed to set your Etrade credentials.
+
+ - Run `./gradlew addCredentials --key consumerKey --value 'your_consumer_key'`
+ - Run `./gradlew addCredentials --key secretKey --value 'your_secret_key'`
+ - Run `./gradlew addCredentials --key sandboxConsumerKey --value 'sandbox_consumer_key'`
+ - Run `./gradlew addCredentials --key sandboxSecretKey --value 'sandbox_secret_key'`
 
 ## Building the Code
 - Run `./gradlew clean build`
@@ -38,6 +49,10 @@ The example application provides an environment for testing and validating the s
    * Order List
    * Order Preview
    * Quote
+   
+## Roadmap
+ - April 2021 release of terminal testing and validation application
+ - May 2021 release of gRPC based API microservice 
 
 ## Documentation
  - [Developer Guide](https://developer.etrade.com/home)
