@@ -45,9 +45,14 @@ java {
 }
 
 application {
-    mainClassName = 'com.wolfml.etrade.terminal.ETCientApp'
+    mainClassName = 'com.wolfml.etrade.terminal.ETClientApp'
 }
 
+run {
+    standardInput = System.in
+}
+
+// Application information
 group = 'com.wolfml.etrade'
 version = '0.0.1-SNAPSHOT'
 description = 'This application is built to run as a microservice to manage an etrade account from a trading platform.'

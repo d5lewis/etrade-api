@@ -50,7 +50,7 @@ public class ETClientApp extends AppCommandLine
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug("Current Thread :" + Thread.currentThread().getName() + ", Id : " + Thread.currentThread().getId());
+                logger.debug("Current Thread :{}, Id : {}", Thread.currentThread().getName(), Thread.currentThread().getId());
             }
 
             if (ctx != null)
@@ -76,7 +76,7 @@ public class ETClientApp extends AppCommandLine
         }
         if (logger.isDebugEnabled())
         {
-            logger.debug(" Context initialized for " + (isLive ? "Live Environment" : " Sandbox Environment"));
+            logger.debug(" Context initialized for {}", isLive ? "Live Environment" : " Sandbox Environment");
         }
     }
 
@@ -334,7 +334,7 @@ public class ETClientApp extends AppCommandLine
                 }
             } catch (Exception e)
             {
-                logger.error(" Exception on get accountlist : " + e.getMessage(), e);
+                logger.error(" Exception on get accountlist : {}", e.getMessage(), e);
             }
         } catch (ApiException e)
         {
@@ -367,14 +367,14 @@ public class ETClientApp extends AppCommandLine
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug(" Response String : " + response);
+                logger.debug(" Response String : {}", response);
             }
 
             response = client.getBalance(accountIdKey);
 
             if (logger.isDebugEnabled())
             {
-                logger.debug(" Response String : " + response);
+                logger.debug(" Response String : {}", response);
             }
 
             JSONParser jsonParser = new JSONParser();
@@ -382,7 +382,7 @@ public class ETClientApp extends AppCommandLine
 
             if (logger.isDebugEnabled())
             {
-                logger.debug(" JSONObject : " + jsonObject);
+                logger.debug(" JSONObject : {}", jsonObject);
             }
 
             JSONObject balanceResponse = (JSONObject) jsonObject.get("BalanceResponse");
@@ -472,7 +472,7 @@ public class ETClientApp extends AppCommandLine
 
             if (logger.isDebugEnabled())
             {
-                logger.debug(" Response String : " + response);
+                logger.debug(" Response String : {}", response);
             }
 
             JSONParser jsonParser = new JSONParser();
@@ -599,7 +599,7 @@ public class ETClientApp extends AppCommandLine
 
             if (logger.isDebugEnabled())
             {
-                logger.debug(" Response String : " + response);
+                logger.debug(" Response String : {}", response);
             }
 
             try
@@ -610,7 +610,7 @@ public class ETClientApp extends AppCommandLine
 
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug(" JSONObject : " + jsonObject);
+                    logger.debug(" JSONObject : {}", jsonObject);
                 }
 
                 JSONObject quoteResponse = (JSONObject) jsonObject.get("QuoteResponse");
@@ -765,7 +765,7 @@ public class ETClientApp extends AppCommandLine
 
             if (logger.isDebugEnabled())
             {
-                logger.debug(" Get Order response : " + response);
+                logger.debug(" Get Order response : {}", response);
             }
 
             if (response != null)
