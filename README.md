@@ -13,8 +13,8 @@ algorithm trading in a sandbox and/or live environment.
 * [Roadmap](#roadmap)
 
 ## Requirements
- - Java 11
- - Gradle 6.6.1 or later
+ - Java 11+
+ - Gradle 7.0.1 or later (for Java 16 support)
  - An [E*TRADE](https://us.etrade.com) account.
  - E*TRADE consumer key and consumer secret.
 	
