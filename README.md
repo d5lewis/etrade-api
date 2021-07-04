@@ -24,9 +24,9 @@ to maintain encrypted credentials for use in the live and sandbox environment of
 addCredentials must be executed to set your Etrade credentials.
 
  - Run `./gradlew addCredentials --key consumerKey --value 'your_consumer_key'`
- - Run `./gradlew addCredentials --key secretKey --value 'your_secret_key'`
+ - Run `./gradlew addCredentials --key consumerSecret --value 'your_secret_key'`
  - Run `./gradlew addCredentials --key sandboxConsumerKey --value 'sandbox_consumer_key'`
- - Run `./gradlew addCredentials --key sandboxSecretKey --value 'sandbox_secret_key'`
+ - Run `./gradlew addCredentials --key sandboxConsumerSecret --value 'sandbox_secret_key'`
 
 ## Building the Code
 - Run `./gradlew clean build`

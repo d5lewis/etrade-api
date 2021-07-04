@@ -23,8 +23,6 @@ public class AccountListClient extends Client
     @Autowired
     ApiResource apiResource;
 
-    //String acctListUrl = "/v1/accounts/list";
-
     public AccountListClient()
     {
         super();
