@@ -16,7 +16,8 @@ import java.util.Formatter;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.wolfml.etrade.terminal.ETClientApp.*;
+import static com.wolfml.etrade.terminal.ETClientApp.lineSeparator;
+import static com.wolfml.etrade.terminal.ETClientApp.out;
 
 /*
  * Client fetches the order list for selected accountIdKey available with account list.

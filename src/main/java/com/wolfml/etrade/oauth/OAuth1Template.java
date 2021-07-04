@@ -78,7 +78,7 @@ public class OAuth1Template
     {
         this.message = message;
         this.context = context;
-		oauthsigner = getSigner();
+        oauthsigner = getSigner();
     }
 
     public void setOauthsigner(OAuthSigner oauthsigner)
@@ -164,11 +164,11 @@ public class OAuth1Template
         if (message.getOauthRequired() == OauthRequired.YES)
         {
 
-			oauth_nonce = computeNonce();
+            oauth_nonce = computeNonce();
 
-			signatureMethod = getSigner().getSignatureMethod();
+            signatureMethod = getSigner().getSignatureMethod();
 
-			timestamp = computeTimestamp();
+            timestamp = computeTimestamp();
 
             Map<String, String[]> requestMap = new TreeMap<String, String[]>(String.CASE_INSENSITIVE_ORDER);
 
@@ -219,7 +219,7 @@ public class OAuth1Template
 
             log.debug("signature base string " + baseString);
 
-			signature = oauthsigner.computeSignature(baseString, context);
+            signature = oauthsigner.computeSignature(baseString, context);
 
             log.debug(" signature " + signature);
         } else
@@ -408,8 +408,8 @@ public class OAuth1Template
         {
             return "";
         }
-		return new String(URLCodec.encodeUrl(WWW_FORM_URL_SAFE, value.getBytes(StandardCharsets.UTF_8)), StandardCharsets.US_ASCII);
-	}
+        return new String(URLCodec.encodeUrl(WWW_FORM_URL_SAFE, value.getBytes(StandardCharsets.UTF_8)), StandardCharsets.US_ASCII);
+    }
 
     public static String decode(String value)
     {
@@ -421,7 +421,7 @@ public class OAuth1Template
         try
         {
             return new String(URLCodec.decodeUrl(value.getBytes(StandardCharsets.US_ASCII)),
-					StandardCharsets.UTF_8);
+                    StandardCharsets.UTF_8);
         } catch (DecoderException e)
         {
             throw new RuntimeException(e);
@@ -461,10 +461,10 @@ public class OAuth1Template
     private OAuthSigner getSigner()
     {
         OAuthSigner signer = null;
-		if (context.getResouces().getSignatureMethod() == Signer.HMAC_SHA1)
-		{
-			signer = new HmacSha1Signer();
-		}
+        if (context.getResouces().getSignatureMethod() == Signer.HMAC_SHA1)
+        {
+            signer = new HmacSha1Signer();
+        }
         return signer;
     }
 }

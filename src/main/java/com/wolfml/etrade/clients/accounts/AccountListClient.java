@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * client uses oauth_token & oauth_token_secret to access protected resources that is available via oauth handshake.
  *
  */
-public class AccountListClient extends Client
-{
+public class AccountListClient extends Client {
 
     @Autowired
     AppController oauthManager;
@@ -23,14 +22,12 @@ public class AccountListClient extends Client
     @Autowired
     ApiResource apiResource;
 
-    public AccountListClient()
-    {
+    public AccountListClient() {
         super();
     }
 
     @Override
-    public String getQueryParam()
-    {
+    public String getQueryParam() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -39,26 +36,22 @@ public class AccountListClient extends Client
      * The HTTP request method used to send the request. Value MUST be uppercase, for example: HEAD, GET , POST, etc
      */
     @Override
-    public String getHttpMethod()
-    {
+    public String getHttpMethod() {
         return "GET";
     }
 
     @Override
-    public String getURL()
-    {
+    public String getURL() {
         return String.format("%s%s", apiResource.getApiBaseUrl(), apiResource.getAcctListUri());
     }
 
     @Override
-    public String getURL(String accountIdkKey)
-    {
+    public String getURL(String accountIdkKey) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public String getAccountList() throws ApiException
-    {
+    public String getAccountList() throws ApiException {
 
         log.debug(" Calling Accountlist API " + getURL());
 

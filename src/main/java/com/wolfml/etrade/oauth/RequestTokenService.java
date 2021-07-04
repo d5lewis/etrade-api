@@ -71,13 +71,13 @@ public class RequestTokenService implements Receiver
         context.put("TOKEN", oauthToken);
 
         //Chain the request to authorization service
-		if (nextReceiver != null)
-		{
-			nextReceiver.handleMessage(message, context);
-		} else
-		{
-			log.error("authorizationService is null");
-		}
+        if (nextReceiver != null)
+        {
+            nextReceiver.handleMessage(message, context);
+        } else
+        {
+            log.error("authorizationService is null");
+        }
 
         return true;
     }

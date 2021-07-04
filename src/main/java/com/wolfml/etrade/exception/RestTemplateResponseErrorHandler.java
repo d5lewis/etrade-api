@@ -28,8 +28,8 @@ public class RestTemplateResponseErrorHandler extends DefaultResponseErrorHandle
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
     @Override
-	public void handleError(ClientHttpResponse response) throws IOException
-	{
+    public void handleError(ClientHttpResponse response) throws IOException
+    {
 
         Document doc = null;
 
@@ -61,14 +61,14 @@ public class RestTemplateResponseErrorHandler extends DefaultResponseErrorHandle
                 String message = "";
                 if (root.getNodeName().equals("Error"))
                 {
-					if (doc.getElementsByTagName("code") != null && doc.getElementsByTagName("code").item(0) != null)
-					{
-						appErrorCode = doc.getElementsByTagName("code").item(0).getTextContent();
-					}
-					if (doc.getElementsByTagName("message") != null && doc.getElementsByTagName("message").item(0) != null)
-					{
-						message = doc.getElementsByTagName("message").item(0).getTextContent();
-					}
+                    if (doc.getElementsByTagName("code") != null && doc.getElementsByTagName("code").item(0) != null)
+                    {
+                        appErrorCode = doc.getElementsByTagName("code").item(0).getTextContent();
+                    }
+                    if (doc.getElementsByTagName("message") != null && doc.getElementsByTagName("message").item(0) != null)
+                    {
+                        message = doc.getElementsByTagName("message").item(0).getTextContent();
+                    }
 
                     throw new ApiException(httpStatus, appErrorCode, message);
                 } else
@@ -98,7 +98,7 @@ public class RestTemplateResponseErrorHandler extends DefaultResponseErrorHandle
      * @see org.springframework.web.client.ResponseErrorHandler#hasError(org.springframework.http.client.ClientHttpResponse)
      */
     @Override
-	public boolean hasError(ClientHttpResponse response) throws IOException
+    public boolean hasError(ClientHttpResponse response) throws IOException
     {
         return (response.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR ||
                 response.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR ||

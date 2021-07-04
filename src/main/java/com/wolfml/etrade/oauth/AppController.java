@@ -89,26 +89,26 @@ public class AppController
             log.error(" Error Calling service api ", e);
             log.error("Exception class name " + e.getCause().getClass().getSimpleName());
 
-			if (ApiException.class.isAssignableFrom(e.getCause().getClass()))
-			{
-				log.error(" ApiException found ");
-				throw (ApiException) (e.getCause());
-			} else
-			{
-				throw new ApiException(500, "500", "Internal Failure");
-			}
+            if (ApiException.class.isAssignableFrom(e.getCause().getClass()))
+            {
+                log.error(" ApiException found ");
+                throw (ApiException) (e.getCause());
+            } else
+            {
+                throw new ApiException(500, "500", "Internal Failure");
+            }
         } catch (Exception e)
         {
             log.error(" Error Calling service api ", e);
             log.error("Exception class name " + e.getClass().getName());
-			if (ApiException.class.isAssignableFrom(e.getCause().getClass()))
-			{
-				log.error(" ApiException found ");
-				throw ((ApiException) e);
-			} else
-			{
-				throw new ApiException(500, "500", "Internal Failure");
-			}
+            if (ApiException.class.isAssignableFrom(e.getCause().getClass()))
+            {
+                log.error(" ApiException found ");
+                throw ((ApiException) e);
+            } else
+            {
+                throw new ApiException(500, "500", "Internal Failure");
+            }
         }
         return response;
     }

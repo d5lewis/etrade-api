@@ -47,13 +47,13 @@ public class AuthorizationService implements Receiver
 
                     message.setVerifierCode(code);
 
-					if (nextReceiver != null)
-					{
-						nextReceiver.handleMessage(message, context);
-					} else
-					{
-						log.error(" AuthorizationService : nextReceiver is null");
-					}
+                    if (nextReceiver != null)
+                    {
+                        nextReceiver.handleMessage(message, context);
+                    } else
+                    {
+                        log.error(" AuthorizationService : nextReceiver is null");
+                    }
                 } else
                 {
                     return false;
@@ -74,6 +74,6 @@ public class AuthorizationService implements Receiver
     @Override
     public void handleNext(Receiver nextHandler) throws TokenException
     {
-		nextReceiver = nextHandler;
+        nextReceiver = nextHandler;
     }
 }

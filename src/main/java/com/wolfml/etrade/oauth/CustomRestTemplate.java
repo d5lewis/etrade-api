@@ -54,14 +54,14 @@ public class CustomRestTemplate extends RestTemplate
             log.error("Failed calling service", e);
             log.error("Exception class name " + e.getCause().getClass().getSimpleName());
 
-			if (ApiException.class.isAssignableFrom(e.getCause().getClass()))
-			{
-				log.error(" ApiException found ");
-				throw (ApiException) (e.getCause());
-			} else
-			{
-				throw new ApiException(500, "500", "Internal Failure");
-			}
+            if (ApiException.class.isAssignableFrom(e.getCause().getClass()))
+            {
+                log.error(" ApiException found ");
+                throw (ApiException) (e.getCause());
+            } else
+            {
+                throw new ApiException(500, "500", "Internal Failure");
+            }
         }
         log.debug(" Completed the service call");
         return response;

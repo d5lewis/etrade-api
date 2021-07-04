@@ -66,10 +66,10 @@ public class AccessTokenService implements Receiver
 
         context.setIntialized(true);
 
-		if (nextReceiver != null)
-		{
-			nextReceiver.handleMessage(message, context);
-		}
+        if (nextReceiver != null)
+        {
+            nextReceiver.handleMessage(message, context);
+        }
 
         return true;
     }
@@ -77,7 +77,7 @@ public class AccessTokenService implements Receiver
     @Override
     public void handleNext(Receiver nextHandler) throws TokenException
     {
-		nextReceiver = nextReceiver;
+        nextReceiver = nextReceiver;
     }
 
     public void setCustomRestTemplate(CustomRestTemplate customRestTemplate)
