@@ -10,14 +10,20 @@ import com.wolfml.etrade.oauth.model.OauthRequired;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import static com.wolfml.etrade.terminal.ETClientApp.lineSeparator;
-import static com.wolfml.etrade.terminal.ETClientApp.out;
+import static com.wolfml.etrade.api.terminal.TerminalClientManager.lineSeparator;
+import static com.wolfml.etrade.api.terminal.TerminalClientManager.out;
 
 /*
  * Client fetches the order list for selected accountIdKey available with account list.
@@ -25,6 +31,7 @@ import static com.wolfml.etrade.terminal.ETClientApp.out;
  */
 public class OrderClient extends Client
 {
+    private static final Logger logger = LoggerFactory.getLogger((MethodHandles.lookup().lookupClass()));
 
     @Autowired
     AppController oauthManager;
@@ -84,103 +91,66 @@ public class OrderClient extends Client
         return oauthManager.invoke(message);
     }
 
-    public void parseResponse(final String response) throws Exception
+    /**
+     * Gets all of the order data per instrument returning a list with data in the following format:
+     *
+     *{{"Date", "OrderId", "Order Type", "Action", "Qty", "Symbol", "Price Type", "Term", "Price", "Executed", "Status"}}
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public List<Map<String, String>> parseResponse(final String response) throws Exception
     {
-
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
-
         JSONObject orderResponse = (JSONObject) jsonObject.get("OrdersResponse");
-        JSONArray orderData = null;
+        JSONArray orderData;
+        List<Map<String, String>> instrumentList = new ArrayList<>();
 
         if (jsonObject.get("OrdersResponse") != null)
         {
             orderData = (JSONArray) orderResponse.get("Order");
-            Object[] responseData = new Object[15];
-            Iterator orderItr = orderData.iterator();
+            logger.debug("Date  OrderId  Type  Action  Qty  Symbol  Type  Term  Price  Executed  Status");
 
-            String titleFormat = new StringBuilder("%10s %25s %25s %13s %10s %10s %15s %25s %15s %25s %15s").append(System.lineSeparator()).append(System.lineSeparator()).toString();
-
-            out.printf(titleFormat, "Date", "OrderId", "Type", "Action", "Qty", "Symbol", "Type", "Term", "Price", "Executed", "Status");
-            StringBuilder sbuf = new StringBuilder();
-            Formatter fmt = new Formatter(sbuf);
-            while (orderItr.hasNext())
+            for (Object orderDatum : orderData)
             {
-
-                JSONObject order = (JSONObject) orderItr.next();
-
+                JSONObject order = (JSONObject) orderDatum;
                 JSONArray orderDetailArr = (JSONArray) order.get("OrderDetail");
-
-                Iterator orderdDetailItr = orderDetailArr.iterator();
-
-                JSONObject orderDetail = (JSONObject) orderdDetailItr.next();
-
+                JSONObject orderDetail = (JSONObject) orderDetailArr.get(0);
                 JSONArray orderInstArr = (JSONArray) orderDetail.get("Instrument");
-                Iterator orderdInstItr = orderInstArr.iterator();
 
-                while (orderdInstItr.hasNext())
+                for (Object o : orderInstArr)
                 {
-                    sbuf.delete(0, sbuf.length());
-                    StringBuilder formatString = new StringBuilder();
+                    HashMap<String, String> instrumentMap = new HashMap<>();
 
-                    JSONObject instrument = (JSONObject) orderdInstItr.next();
+                    JSONObject instrument = (JSONObject) o;
                     JSONObject product = (JSONObject) instrument.get("Product");
 
-                    //placed date
-                    responseData[0] = OrderUtil.convertLongToDate((Long) orderDetail.get("placedTime"));
-                    formatString.append("%10s");
-
-                    responseData[1] = order.get("orderId");
-                    formatString.append("%25d");
-
-                    responseData[2] = order.get("orderType");
-                    formatString.append("%25s");
-
-                    responseData[3] = instrument.get("orderAction");
-                    formatString.append("%15s");
-
-                    responseData[4] = instrument.get("orderedQuantity");
-                    formatString.append("%10d");
-
-                    responseData[5] = product.get("symbol");
-                    formatString.append("%10s");
-
-                    responseData[6] = (PriceType.getPriceType(String.valueOf(orderDetail.get("priceType")))).getValue();
-                    formatString.append("%20s");
-
-                    responseData[7] = OrderUtil.getTerm((OrderTerm.getOrderTerm(String.valueOf(orderDetail.get("orderTerm")))));
-                    formatString.append("%25s");
-
-                    responseData[8] = OrderUtil.getPrice(PriceType.getPriceType(String.valueOf(orderDetail.get("priceType"))), orderDetail);
-                    formatString.append("%15s");
+                    instrumentMap.put("Date", OrderUtil.convertLongToDate((Long) orderDetail.get("placedTime")));
+                    instrumentMap.put("OrderId", order.get("orderId").toString());
+                    instrumentMap.put("Order Type", order.get("orderType").toString());
+                    instrumentMap.put("Action", instrument.get("orderAction").toString());
+                    instrumentMap.put("Qty", instrument.get("orderedQuantity").toString());
+                    instrumentMap.put("Symbol", product.get("symbol").toString());
+                    instrumentMap.put("Price Type", PriceType.getPriceType(String.valueOf(orderDetail.get("priceType"))).toString());
+                    instrumentMap.put("Term", OrderUtil.getTerm((OrderTerm.getOrderTerm(String.valueOf(orderDetail.get("orderTerm"))))));
+                    instrumentMap.put("Price", OrderUtil.getPrice(PriceType.getPriceType(String.valueOf(orderDetail.get("priceType"))), orderDetail));
 
                     if (instrument.containsKey("averageExecutionPrice"))
                     {
-                        if (Double.class.isAssignableFrom(instrument.get("averageExecutionPrice").getClass()))
-                        {
-                            responseData[9] = String.valueOf(instrument.get("averageExecutionPrice"));
-                            formatString.append("%25s");
-                        } else
-                        {
-                            responseData[9] = String.valueOf(instrument.get("averageExecutionPrice"));
-                            formatString.append("%25s");
-                        }
+                        instrumentMap.put("Executed", String.valueOf(instrument.get("averageExecutionPrice")));
                     } else
                     {
-                        responseData[9] = "-";
-                        formatString.append("%25s");
+                        instrumentMap.put("Executed", "-");
                     }
 
-                    responseData[10] = orderDetail.get("status");
-                    formatString.append("%15s").append(lineSeparator);
-
-                    fmt.format(formatString.toString(), responseData[0], responseData[1], responseData[2], responseData[3], responseData[4], responseData[5], responseData[6], responseData[7], responseData[8], responseData[9], responseData[10]);
-                    out.println(sbuf);
-
-                    out.println();
-                    out.println();
+                    instrumentMap.put("Status", orderDetail.get("status").toString());
+                    instrumentList.add(instrumentMap);
                 }
             }
         }
+
+        return instrumentList;
     }
 }

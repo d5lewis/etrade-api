@@ -4,7 +4,7 @@ import com.wolfml.etrade.exception.ApiException;
 import com.wolfml.etrade.oauth.model.Message;
 import com.wolfml.etrade.oauth.model.OAuthToken;
 import com.wolfml.etrade.oauth.model.SecurityContext;
-import com.wolfml.etrade.terminal.KeyIn;
+import com.wolfml.etrade.api.terminal.KeyIn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

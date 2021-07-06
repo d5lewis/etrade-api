@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.wolfml.etrade.terminal.ETClientApp.out;
+import static com.wolfml.etrade.api.terminal.TerminalClientManager.out;
 
 /*
  * Client does order preview selected accountIdKey available with account list and promts the user for symbol, quantity etc.
