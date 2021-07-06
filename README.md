@@ -14,8 +14,8 @@ includes a command line feature to test and validate algorithm trading in a sand
 
 ## Requirements
 
-- Java 11+
-- Gradle 7.0.1 or later (for Java 16 support)
+- Java 11
+- Gradle 7.0.1 or later
 - An [E*TRADE](https://us.etrade.com) account.
 - E*TRADE consumer key and consumer secret.
 

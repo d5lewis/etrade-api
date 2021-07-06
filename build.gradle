@@ -46,7 +46,7 @@ java {
 }
 
 application {
-    mainClassName = 'com.wolfml.etrade.api.terminal.ETClientApp'
+    mainClassName = 'com.wolfml.etrade.api.terminal.TerminalClientManager'
 }
 
 run {
