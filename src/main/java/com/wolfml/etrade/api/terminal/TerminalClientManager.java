@@ -34,7 +34,7 @@ public class TerminalClientManager
     private boolean isLive = false;
     public final static PrintStream out = System.out;
     private CommandLine line = null;
-    private final Options options = null;
+    private final Options options = new Options();
     private final HelpFormatter formatter = new HelpFormatter();
     private final Options menuItems = new Options();
     private final Options subMenuItems = new Options();
@@ -356,10 +356,10 @@ public class TerminalClientManager
     {
         Option acctList = new Option("1", "Account List");
         Option quotes = new Option("2", "Market Quotes");
-        Option exitapp = new Option("3", "Go Back");
+        Option exitApp = new Option("3", "Go Back");
         menuItems.addOption(acctList);
         menuItems.addOption(quotes);
-        menuItems.addOption(exitapp);
+        menuItems.addOption(exitApp);
     }
 
     private void initSubMenuItems()
